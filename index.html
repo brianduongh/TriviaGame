@@ -12,6 +12,7 @@
   <div class="container">
     <h1>Trivia</h1>
     <button id="startBtn">Start</button>
+    <div id="timer"></div>
     <div id="question"></div>
     <div id="answerChoices"></div>
     <div id="result"></div>
@@ -52,6 +53,25 @@
         $("#question").text(questions.splice(questionIndex, 1));
         // Run generateAnswerChoices function with value of questionIndex
         generateAnswerChoices(questionIndex);
+        // make a timer
+        timer();
+      };
+
+      function timer() {
+        // Starts timer at 10
+        var time = 10;
+        $("#timer").text(10);
+        intervalId = setInterval(count, 1000);
+
+        function count() {
+          time--;
+          console.log(time);
+          $("#timer").text(time);
+          if (time == 0) {
+            time = 10;
+            generateQuestion();
+          }
+        }
       };
 
       // For each answer choice, make a button and add to #answerChoices
