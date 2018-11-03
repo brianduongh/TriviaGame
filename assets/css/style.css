@@ -1,0 +1,12 @@
+body {
+  background: teal;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  background: pink;
+  margin-top: 100px;
+  text-align: center;
+  height: 500px;
+}
