@@ -5,116 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Triva Game!</title>
+  <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/8bit-wonder" type="text/css"/>
   <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
   <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 </head>
 <body>
+  <h1>Trivia Game!</h1>
   <div class="container">
-    <h1>Trivia</h1>
-    <button id="startBtn">Start</button>
+    <div id="startBtn">
+      <button>Start</button>
+    </div>
     <div id="timer"></div>
     <div id="question"></div>
     <div id="answerChoices"></div>
     <div id="result"></div>
   </div>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script type="text/javascript">
-
-    var questions = [
-                      "What is capitol of Indonesia?",
-                      "Where is Jeju Island?",
-                      "How many states are there"
-                    ];
-    var answers = [
-                    ["Jakarta", "Bali", "Java", "Bandung"],
-                    ["Mexico", "Phillipines", "Japan", "South Korea"],
-                    ["52", "50", "51", "49"]
-                  ];
-
-    var correctAnswers = ["Jakarta", "South Korea", "50"];
-
-    // Document ready
-    $(document).ready(function() {
-      // User click start button
-      $("#startBtn").on("click", function() {
-        startGame();
-      });
-
-      function startGame() {
-        // Hide start button
-        $("#startBtn").hide();
-        generateQuestion();
-      };
-
-      // Generate question
-      function generateQuestion() {
-        var questionIndex = Math.floor(Math.random() * questions.length);
-        // removes question from array
-        $("#question").text(questions.splice(questionIndex, 1));
-        // Run generateAnswerChoices function with value of questionIndex
-        generateAnswerChoices(questionIndex);
-        // make a timer
-        timer();
-      };
-
-      function timer() {
-        // Starts timer at 10
-        var time = 10;
-        $("#timer").text(10);
-        intervalId = setInterval(count, 1000);
-
-        function count() {
-          time--;
-          console.log(time);
-          $("#timer").text(time);
-          if (time == 0) {
-            time = 10;
-            generateQuestion();
-          }
-        }
-      };
-
-      // For each answer choice, make a button and add to #answerChoices
-      function generateAnswerChoices(question) {
-        answers[question].forEach(function(answerChoices) {
-          var answer = $("<div>");
-          answer.addClass("answer");
-          answer.attr("id", answerChoices);
-          answer.text(answerChoices);
-          console.log(question);
-          $("#answerChoices").prepend(answer);
-        });
-        answers.splice(question, 1);
-
-        // Check answer
-        $(".answer").on("click", function() {
-          if (correctAnswers.indexOf(this.id) > -1) {
-            console.log(questions);
-            console.log(answers);
-            correct();
-          } else {
-            $("#result").append($("<h1>Incorrect</h1>"));
-            clearQA();
-          }
-        });
-
-        // User answers correctly
-        function correct() {
-          $("#result").append($("<h1>Correct</h1>"));
-          clearQA();
-          generateQuestion();
-        }
-
-        // Empty questions and answers
-        function clearQA() {
-          $("#answerChoices").empty();
-          $("#question").empty();
-          $("#result").empty();
-        }
-
-      };
-
-    });
-  </script>
+  <script type="text/javascript" src="assets/javascript/index.js"></script>
 </body>
 </html>

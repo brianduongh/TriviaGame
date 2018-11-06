@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Triva Game!</title>
+  <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+</head>
+<body>
+  <h1>Trivia</h1>
+  <div class="container">
+    <button id="startBtn">Start</button>
+    <div id="timer"></div>
+    <div id="question"></div>
+    <div id="answerChoices"></div>
+    <div id="result"></div>
+  </div>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+
+    var questions = [
+                      "What is capitol of Indonesia?",
+                      "Where is Jeju Island?",
+                      "How many states are there",
+                      "What tea is orange"
+                    ];
+    var answers = [
+                    ["Jakarta", "Bali", "Java", "Bandung"],
+                    ["Mexico", "Phillipines", "Japan", "South Korea"],
+                    ["52", "50", "51", "49"],
+                    ["Black", "Green", "Thai", "Ice"]
+                  ];
+
+    var correctAnswers = ["Jakarta", "South Korea", "50", "Thai"];
+
+    var intervalId;
+    var clockRunning = false;
+    var incorrect = 0;
+    var correct = 0;
+    var unaswered = 0;
+
+    // Document ready
+    $(document).ready(function() {
+      // User click start button and starts game
+      $("#startBtn").on("click", function() {
+        // Hide start button and starts game
+        $("#startBtn").hide();
+        startGame();
+      });
+
+      // Initialize game with first question and timer
+      function startGame() {
+        startTimer();
+        generateQuestion();
+      };
+
+      // Timer function
+      function startTimer() {
+        // User has 5 seconds to answer question
+        var time = 5;
+
+        function reset() {
+          time = 5;
+        }
+
+        function start() {
+          $("#timer").text(time);
+          intervalId = setInterval(count, 1000)
+        }
+
+        // When user doesn't answer question
+        function timeout() {
+          setTimeout(function() {
+            // Checks to see if there are no more questions
+            if (typeof questions !== 'undefined' && questions.length > 0) {
+              // Clears contents and asks new question
+              clearQA();
+              startGame();
+            } else {
+              // Show score if no more questions
+              showScore();
+            }
+          }, 3000);
+        }
+
+        // clears interval
+        function stop() {
+          clearInterval(intervalId);
+        }
+
+        // Decrease time each second & updates time display
+        function count() {
+          time--;
+          $("#timer").text(time);
+          // If time is 0, run timeout function and reset time
+          if (time == 0) {
+            unaswered++;
+            stop();
+            timeout();
+            reset();
+          }
+        }
+        start();
+      }
+
+      // Generates a random question
+      function generateQuestion() {
+        var questionIndex = Math.floor(Math.random() * questions.length);
+        // If there are questions in question array, print out the question
+        if (typeof questions !== 'undefined' && questions.length > 0) {
+          $("#question").text(questions.splice(questionIndex,1));
+          generateAnswerChoices(questionIndex);
+        } else {
+          showScore();
+        }
+      }
+
+      // Generates answer choices based on question generated
+      function generateAnswerChoices(answersIndex) {
+        // For each answer, make an answer choice
+        answers[answersIndex].forEach(function(answer) {
+          var answerChoice = $("<div>");
+          answerChoice.addClass("answer");
+          answerChoice.attr("id", answer);
+          answerChoice.text(answer);
+          // Add answers to answerChoice div
+          $("#answerChoices").prepend(answerChoice);
+        });
+        answers.splice(answersIndex, 1);
+
+        // User clicks on answer choice
+        $(".answer").on("click", function() {
+          // If answer is correct
+          if (correctAnswers.indexOf(this.id) > -1) {
+            clearQA();
+            correct++;
+            showAnswer(answersIndex);
+          } else {
+            clearQA();
+            incorrect++;
+            startGame();
+          }
+        });
+      }
+
+      //
+      function showAnswer(correctAnswerIndex) {
+        $("#result").text(correctAnswers[correctAnswerIndex]);
+      }
+
+
+      // Shows score at end of game
+      function showScore() {
+        clearQA();
+        $("#result").append("Your score");
+        $("#result").append("<div>Correct answers: " + correct + "</div>")
+        $("#result").append("<div>Incorrect answers: " + incorrect + "</div>");
+        $("#result").append("<div>Unaswered answers: " + unaswered + "</div>");
+      }
+
+      // Clears out content
+      function clearQA() {
+        $("#answerChoices").empty();
+        $("#question").empty();
+        $("#result").empty();
+        $("#timer").empty();
+      }
+
+      // function playGame() {
+      //   // Sets question
+      //   var questionIndex = Math.floor(Math.random() * questions.length);
+      //
+      //   // Sets time
+      //   function timer() {
+      //     var time = 5;
+      //
+      //     function reset() {
+      //       time = 2;
+      //       $("#timer").text("10");
+      //     }
+      //
+      //     function start() {
+      //       intervalId = setInterval(count, 1000)
+      //     }
+      //
+      //     function timeout() {
+      //       setTimeout(function() {
+      //         clear();
+      //         reset();
+      //         generateQuestion();
+      //       }, 2000);
+      //     }
+      //
+      //     function stop() {
+      //
+      //       console.log("stopping");
+      //       clearInterval(intervalId);
+      //
+      //     }
+      //
+      //     function count() {
+      //       time--;
+      //       console.log(time);
+      //       if (time == 0) {
+      //         stop();
+      //         incorrect();
+      //         timeout();
+      //       }
+      //     }
+      //     start();
+      //   };
+      //
+      //
+      //   // Generates Question
+      //   function generateQuestion() {
+      //     timer();
+      //   };
+      //   generateQuestion();
+      //
+      //   // Generates answer choices
+      //   function generateAnswerChoices() {
+      //     // Generates a div for each answer
+      //     //
+      //     // answers[questionIndex].forEach(function(answerChoice) {
+      //     //   var answer = $("<div>");
+      //     //   answer.addClass("answer");
+      //     //   answer.attr("id", answerChoice);
+      //     //   answer.text(answerChoice);
+      //     //   $("#answerChoices").prepend(answer);
+      //     // });
+      //     // // removes answerChoices from answer choice array
+      //     // answers.splice(questionIndex, 1)
+      //     // // console.log(answers);
+      //     // // console.log(correctAnswers)
+      //   };
+      //
+      //   // Generates Answer
+      //   function generateAnswer() {
+      //     $("#result").text("Correct: it is" + correctAnswers[questionIndex] + ".");
+      //   };
+      //
+      //
+      //
+      //   // if user is correct
+      //   function correct() {
+      //     $("#result").text("Correct: it is" + correctAnswers[questionIndex] + ".");
+      //   }
+      //
+      //   // if user is incorrect
+      //   function incorrect() {
+      //     $("#result").text("Incorrect: it is" + correctAnswers.splice(questionIndex, 1) + ".");
+      //   }
+      //
+      //   // Empties previous questions and answers
+      //   function clear() {
+      //     $("#question").empty();
+      //     $("#result").empty();
+      //     $("#answerChoices").empty();
+      //   }
+      //
+      // }
+
+
+
+    });
+  </script>
+</body>
+</html>

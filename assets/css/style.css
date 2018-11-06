@@ -1,12 +1,49 @@
+* {
+  font-family: '8BITWONDERNominal';
+}
+
+html,
 body {
-  background: teal;
+  min-height: 100vh;
+}
+
+button {
+  color: white;
+  border: 2px solid white;
+  background: transparent;
+  font-size: 2rem;
+}
+
+body {
+  font-family: '8BITWONDERNominal';
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  background: black;
+  color: white;
 }
 
 .container {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.flex {
+}
+
+h1 {
+  margin: 10px 0px;
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+/* .container {
   max-width: 900px;
   margin: auto;
   background: pink;
   margin-top: 100px;
   text-align: center;
   height: 500px;
-}
+} */
