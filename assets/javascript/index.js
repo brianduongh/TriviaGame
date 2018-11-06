@@ -20,9 +20,15 @@
     var incorrect = 0;
     var correct = 0;
     var unaswered = 0;
+    var audio = new Audio("./assets/sounds/8bitZelda.mp3");
 
     // Document ready
     $(document).ready(function() {
+      // Hide elements
+      $("#answerChoices").hide();
+      $("#question").hide();
+      $("#result").hide();
+      $("#timer").hide();
       // User click start button and starts game
       $("#startBtn").on("click", function() {
         // Hide start button and starts game
@@ -33,10 +39,12 @@
       // Initialize game with first question and timer
       function startGame() {
         generateQuestion();
+        audio.play();
       };
 
       // Generates a random question
       function generateQuestion() {
+        $("#question").show();
         var questionIndex = Math.floor(Math.random() * questions.length);
         // If there are questions in question array, print out the question
         if (typeof questions !== 'undefined' && questions.length > 0) {
@@ -50,13 +58,14 @@
 
       // Creates timer that passes correct answer down
       function timer(correctIndex) {
-        var time = 5;
+        $("#timer").show();
+        var time = 15;
         $("#timer").text(time);
         intervalId = setInterval(count, 1000);
 
         // Resets the time
         function reset() {
-          time = 5;
+          time = 15;
         }
 
         // Clears time
@@ -81,6 +90,7 @@
 
       // Generates answer choices based on question generated
       function generateAnswerChoices(answersIndex) {
+        $("#answerChoices").show();
         // For each answer, make an answer choice
         answers[answersIndex].forEach(function(answer) {
           var answerChoice = $("<div>");
@@ -114,6 +124,8 @@
 
       // Shows answer
       function showAnswer(correctIndex, rightWrong) {
+        hideMe();
+        $("#result").show();
         // If user is correct
         if (rightWrong == correct) {
           $("#result").text("Correct the answer is " + correctAnswers[correctIndex]);
@@ -140,9 +152,9 @@
       function showScore() {
         clearQA();
         $("#result").append("Your score");
-        $("#result").append("<div>Correct answers: " + correct + "</div>")
-        $("#result").append("<div>Incorrect answers: " + incorrect + "</div>");
-        $("#result").append("<div>Unaswered answers: " + unaswered + "</div>");
+        $("#result").append("<div>Correct: " + correct + "</div>")
+        $("#result").append("<div>Incorrect: " + incorrect + "</div>");
+        $("#result").append("<div>Unaswered: " + unaswered + "</div>");
       }
 
 
@@ -152,6 +164,14 @@
         $("#question").empty();
         $("#result").empty();
         $("#timer").empty();
+      }
+
+      // Hides elements
+      function hideMe() {
+        $("#answerChoices").hide();
+        $("#question").hide();
+        $("#result").hide();
+        $("#timer").hide();
       }
 
     });
