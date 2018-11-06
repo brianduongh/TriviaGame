@@ -1,18 +1,20 @@
 // Declaring variables
     var questions = [
-                      "What is capitol of Indonesia?",
-                      "Where is Jeju Island?",
-                      "How many states are there",
-                      "What tea is orange"
+                      "What does Donkey Kong throw at Mario in the first stage?",
+                      "In Street Fighter, who is Ryu's rival?",
+                      "In Pac-Man, how many ghosts chase you around?",
+                      "What is the game called where you shoot at aliens?",
+                      "What game makes you dig tunnels and escape monsters?"
                     ];
     var answers = [
-                    ["Jakarta", "Bali", "Java", "Bandung"],
-                    ["Mexico", "Phillipines", "Japan", "South Korea"],
-                    ["52", "50", "51", "49"],
-                    ["Black", "Green", "Thai", "Ice"]
+                    ["Boxes", "Barrels", "Wheels", "Bananas"],
+                    ["Ken", "Akuma", "Sagat", "Dan"],
+                    ["5", "4", "3", "2"],
+                    ["Alien Shootout", "Galatic Battle", "Space Intruders", "Space Invaders"],
+                    ["Dig me out", "Dig Dug", "Gold Digger", "Mine that dirt"]
                   ];
 
-    var correctAnswers = ["Jakarta", "South Korea", "50", "Thai"];
+    var correctAnswers = ["Barrels", "Ken", "5", "Space Invaders", "Dig Dug"];
     var intervalId;
     var clockRunning = false;
     var incorrect = 0;
